@@ -39,28 +39,52 @@ def grab_banner(sock):
 
     return ""
 
-def scan_port(target, port):
+def scan_port(target, port, single=False):
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.settimeout(TIMEOUT)
-            if s.connect_ex((target, port)) == 0:
+            result = s.connect_ex((target, port))
+
+            if result == 0:
                 banner = grab_banner(s)
                 service = COMMON_SERVICES.get(port, "Unknown")
                 print(f"[OPEN] {port:<5} {service:<10} {banner}")
+            else:
+                if single:
+                    print(f"[CLOSED] {port}")
     except OSError:
         pass
 
-def main():
-    parser = argparse.ArgumentParser(description="Jednoduchý port scanner (používej zodpovědně)")
-    parser.add_argument("--target", required=True, help="cílová IP nebo hostname")
-    args = parser.parse_args()
 
+def main():
+    parser = argparse.ArgumentParser(
+        description="Jednoduchý port scanner (používej zodpovědně)"
+    )
+    parser.add_argument(
+        "--target",
+        required=True,
+        help="cílová IP nebo hostname"
+    )
+    parser.add_argument(
+        "-p",
+        type=int,
+        help="Port ke skenování (pokud není zadán, skenují se všechny)"
+    )
+
+    args = parser.parse_args()
     target = args.target
-    print(f"Scanning {target}...\n")
+
+    if args.p:
+        print(f"Scanning {target} on port {args.p}...\n")
+    else:
+        print(f"Scanning {target} on ports 1–1024...\n")
 
     with ThreadPoolExecutor(max_workers=THREADS) as executor:
-        for port in PORTS:
-            executor.submit(scan_port, target, port)
+        if args.p:
+            executor.submit(scan_port, target, args.p, True)
+        else:
+            for port in PORTS:
+                executor.submit(scan_port, target, port, False)
 
     print("\nScan completed.")
 
