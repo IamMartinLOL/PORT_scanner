@@ -167,4 +167,4 @@ MIT License — free to use, modify, and distribute.
 
 ## 👨‍💻 Author
 
-Created as a Python cybersecurity / pentesting learning project.
+Created by IamMartinLOL. As a first cybersecurity project :)
