@@ -41,7 +41,7 @@ python scanner.py --target 192.168.1.10
 ```bash
 python scanner.py --target 192.168.1.10 -p 22
 ```
-
+You can also just use --t (instead of --target)
 ---
 
 ##  Output
@@ -145,7 +145,7 @@ Do **not** scan networks or systems without explicit permission. Unauthorized sc
 1. Run the scanner:
 
    ```bash
-   python scanner.py --target example.com
+   python scanner.py --target ip
    ```
 
 2. Wait for scan completion.
