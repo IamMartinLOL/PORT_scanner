@@ -35,13 +35,14 @@ A multithreaded **Python port scanner** with **banner grabbing**, basic **servic
 ```bash
 python scanner.py --target 192.168.1.10
 ```
+You can also just use --t (instead of --target)
 
 ### Scan a specific port
 
 ```bash
 python scanner.py --target 192.168.1.10 -p 22
 ```
-You can also just use --t (instead of --target)
+
 ---
 
 ##  Output
